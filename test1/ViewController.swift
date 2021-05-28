@@ -13,7 +13,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
+    // GitHub 연동 테스트
 }
 
