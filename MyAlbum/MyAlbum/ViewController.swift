@@ -20,5 +20,15 @@ class ViewController: UIViewController {
         alert.addAction(action) // 알람에 액션 추가
         present(alert, animated: true, completion: nil) // 알람 띄우기
     }
+    
+    
+    @IBAction func info(_ sender: Any) {
+        let alert = UIAlertController(title: "Info", message: "This is my practice button.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
 }
+
+
 
