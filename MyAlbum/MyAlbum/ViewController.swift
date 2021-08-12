@@ -23,8 +23,11 @@ class ViewController: UIViewController {
     @IBAction func info(_ sender: Any) {
         let message = "가격은 ₩\(currentValue) 입니다."
         let alert = UIAlertController(title: "Info", message: message, preferredStyle: .alert)
+        
         // 클로저 이용하여 handler 지정
+        // 실행 가능한 코드 블럭을 파라미터로 보내는 것!
         let action = UIAlertAction(title: "OK", style: .default, handler: { action in self.refresh() })
+        
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
