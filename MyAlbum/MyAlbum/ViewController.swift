@@ -23,10 +23,10 @@ class ViewController: UIViewController {
     @IBAction func info(_ sender: Any) {
         let message = "가격은 ₩\(currentValue) 입니다."
         let alert = UIAlertController(title: "Info", message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        // 클로저 이용하여 handler 지정
+        let action = UIAlertAction(title: "OK", style: .default, handler: { action in self.refresh() })
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-        refresh()
     }
     
     // 가격 업데이트 함수
