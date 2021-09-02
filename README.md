@@ -1,2 +1,2 @@
 # iOS_DevStudy
-For studying dev iOS at first.
+iOS 앱 개발 공부 📱
