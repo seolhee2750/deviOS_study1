@@ -36,3 +36,10 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
         print("--> \(indexPath.row)")
     }
 }
+
+// 커스텀 셀
+class ListCell: UITableViewCell {
+    @IBOutlet weak var imgView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var bountyLabel: UILabel!
+}
