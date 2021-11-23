@@ -10,9 +10,22 @@ import UIKit
 class BountyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // 데이터
-    let nameList = ["brook", "chopper", "franky", "luffy", "robin", "sanji", "zoro"]
+    let nameList = ["brook", "chopper", "franky", "luffy", "nami", "robin", "sanji", "zoro"]
     let bountyList = [33000000, 50, 4400000, 300000000, 160000000, 8000000, 77000000, 12000000]
 
+    // ViewController에 있는 함수인데, 상속 받은 클래스에서 다시 쓰는 것이므로 override 했음
+    // => 세그웨이를 준비하면서 실행되는 함수
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // DetailViewController에 데이터 넘겨주기!
+        if segue.identifier == "showDetail" {
+            let vc = segue.destination as? DetailViewController
+            if let index = sender as? Int {
+                vc?.name = nameList[index]
+                vc?.bounty = bountyList[index]
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -46,7 +59,8 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("--> \(indexPath.row)")
         // withIdentifier은 여러 segue 중 어떤 것을 의미하는지 표현, sender는 segue가 실행될 때 같이 보내줄 것을 의미
-        performSegue(withIdentifier: "showDetail", sender: nil)
+        // => 여기서는 세그웨이를 실행할 때, 몇 번째 셀이 클릭되었는지 알아야하므로 indexPath의 row값을 보내줌
+        performSegue(withIdentifier: "showDetail", sender: indexPath.row) // 세그웨이 실행 함수
     }
 }
 
