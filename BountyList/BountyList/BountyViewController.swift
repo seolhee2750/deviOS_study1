@@ -8,6 +8,9 @@
 import UIKit
 
 class BountyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    let nameList = ["brook", "chopper", "franky", "luffy", "robin", "sanji", "zoro"]
+    let bountyList = [33000000, 50, 4400000, 300000000, 160000000, 8000000, 77000000, 12000000]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +22,7 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
     
     // [1-1] 셀을 몇 개 보여줄건지 지정해주는 함수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return bountyList.count
     }
     
     // [1-2] 재생할 셀을 지정해주는 함수
