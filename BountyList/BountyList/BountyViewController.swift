@@ -45,6 +45,8 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
     // => 셀을 클릭하면 어떻게 반응할건지 나타냄
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("--> \(indexPath.row)")
+        // withIdentifier은 여러 segue 중 어떤 것을 의미하는지 표현, sender는 segue가 실행될 때 같이 보내줄 것을 의미
+        performSegue(withIdentifier: "showDetail", sender: nil)
     }
 }
 
