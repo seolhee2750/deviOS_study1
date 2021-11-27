@@ -16,7 +16,7 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
     // ViewController에 있는 함수인데, 상속 받은 클래스에서 다시 쓰는 것이므로 override 했음
     // => 세그웨이를 준비하면서 실행되는 함수
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // DetailViewController에 데이터 넘겨주기!
+        // DetailViewController에 데이터 넘겨주기
         if segue.identifier == "showDetail" {
             let vc = segue.destination as? DetailViewController
             if let index = sender as? Int {
@@ -31,8 +31,8 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     // [1] UITableViewDataSource에 대해 답하는 함수들!
-    // (내가 만든건 아니구,, 위에 상속 선언해줬더니 생긴 오류 fix 했더니 만들어줌)
-    // => 샐을 어떻게 표현할건지, 몇 개 표현할건지 나타냄
+    // (위에 상속 선언해줬더니 생긴 오류 fix 했더니 만들어줌)
+    // => 셀을 어떻게 표현할건지, 몇 개 표현할건지 나타냄
     
     // [1-1] 셀을 몇 개 보여줄건지 지정해주는 함수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
