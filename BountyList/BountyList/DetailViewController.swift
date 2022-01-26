@@ -9,14 +9,27 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    // [ MVVM ]
+    
+    // Model (데이터 - Struct or Class)
+    // - BountyInfo
+    // > BountyInfo 만들자
+    
+    // View (UI 요소 - UIView, UIViewController)
+    // - ImgView, nameLabel, bountyLabel
+    // > 위의 view들은 필요한 정보를 ViewModel한테서 받자
+    
+    // ViewModel (중계자 - ViewModel)
+    // - DetailViewModel
+    // > DetailViewModel을 만들고, 뷰레이어에서 필요한 메서드 만들자
+    // > 모델을 가지고 있어야 함(BountyInfo를 가지고 있어야 함)
+    
     // 아웃렛 스토리보드랑 연결
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var bountyLabel: UILabel!
 
-    // 데이터에 필요한 프로퍼티 추가
-    var name: String?
-    var bounty: Int?
+    let viewModel = DetailViewModel()
     
     // 자동 생성된 함수로, 디테일뷰가 생성되기 바로 직전에 실행됨
     override func viewDidLoad() {
@@ -25,16 +38,23 @@ class DetailViewController: UIViewController {
     }
     
     func updateUI() {
-        // name, bounty에 값이 있을 경우 실행
-        if let name = self.name, let bounty = self.bounty {
-            imgView.image = UIImage(named: "\(name).jpg")
-            nameLabel.text = name
-            bountyLabel.text = "\(bounty)"
+        if let bountyInfo = viewModel.bountyInfo {
+            imgView.image = bountyInfo.image
+            nameLabel.text = bountyInfo.name
+            bountyLabel.text = "\(bountyInfo.bounty)"
         }
     }
     
     @IBAction func close(_ sender: Any) {
         // animated는 동작 여부, completion은 동작 후 있을 또다른 동작을 표현
         dismiss(animated: true, completion: nil)
+    }
+}
+
+class DetailViewModel {
+    var bountyInfo: BountyInfo?
+    
+    func update(model: BountyInfo?) {
+        bountyInfo = model
     }
 }

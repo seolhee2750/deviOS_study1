@@ -9,10 +9,25 @@ import UIKit
 
 class BountyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    // [ MVVM ]
+    
+    // Model (데이터 - Struct)
+    // - BountyInfo
+    // > BountyInfo 만들자
+    
+    // View (UI 요소 - UIView, UIViewController)
+    // - ListCell
+    // > ListCell에 필요한 정보를 ViewModel한테서 받자
+    // > ListCell은 ViewModel로 부터 받은 정보로 뷰를 업데이트 하자
+    
+    // ViewModel (중계자 - ViewModel)
+    // - BountyViewModel
+    // > BountyViewModel을 만들고, 뷰레이어에서 필요한 메서드 만들자
+    // > 모델을 가지고 있어야 함(BountyInfo 들을 가지고 있어야 함)
+    
     // 데이터
-    let nameList = ["brook", "chopper", "franky", "luffy", "nami", "robin", "sanji", "zoro"]
-    let bountyList = [33000000, 50, 4400000, 300000000, 160000000, 8000000, 77000000, 12000000]
-
+    let viewModel = BountyViewModel()
+    
     // ViewController에 있는 함수인데, 상속 받은 클래스에서 다시 쓰는 것이므로 override 했음
     // => 세그웨이를 준비하면서 실행되는 함수
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -20,8 +35,10 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
         if segue.identifier == "showDetail" {
             let vc = segue.destination as? DetailViewController
             if let index = sender as? Int {
-                vc?.name = nameList[index]
-                vc?.bounty = bountyList[index]
+                // 데이터(Model)에 직접 접근하지 않고 중계자(viewModel)를 통해 접근하게 함
+                let bountyInfo = viewModel.bountyInfo(at: index)
+                
+                vc?.viewModel.update(model: bountyInfo)
             }
         }
     }
@@ -36,7 +53,8 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
     
     // [1-1] 셀을 몇 개 보여줄건지 지정해주는 함수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bountyList.count
+        // 데이터(Model)에 직접 접근하지 않고 중계자(viewModel)를 통해 접근하게 함
+        return viewModel.numOfBountyInfoList
     }
     
     // [1-2] 재생할 셀을 지정해주는 함수
@@ -46,10 +64,10 @@ class BountyViewController: UIViewController, UITableViewDataSource, UITableView
         // 하지만 리스트 셀이 없을 경우를 대비해서 옵셔널로 대비 (guard let 구문 이용)
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? ListCell else { return UITableViewCell() }
         
-        let img = UIImage(named: "\(nameList[indexPath.row]).jpg")
-        cell.imgView.image = img
-        cell.nameLabel.text = nameList[indexPath.row]
-        cell.bountyLabel.text = "\(bountyList[indexPath.row])"
+        // 데이터(Model)에 직접 접근하지 않고 중계자(viewModel)를 통해 접근하게 함
+        let bountyInfo = viewModel.bountyInfo(at: indexPath.row)
+        
+        cell.update(info: bountyInfo)
         
         return cell
     }
@@ -69,4 +87,33 @@ class ListCell: UITableViewCell {
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var bountyLabel: UILabel!
+    
+    func update(info: BountyInfo) {
+        imgView.image = info.image
+        nameLabel.text = info.name
+        bountyLabel.text = "\(info.bounty)"
+    }
+}
+
+// viewModel (중계자)
+class BountyViewModel {
+    // 데이터 (MVVM 패턴을 위해서 BountyInfo 구조체를 만들었음)
+    let bountyInfoList: [BountyInfo] = [
+        BountyInfo(name: "brook", bounty: 33000000),
+        BountyInfo(name: "chopper", bounty: 50),
+        BountyInfo(name: "franky", bounty: 4400000),
+        BountyInfo(name: "luffy", bounty: 300000000),
+        BountyInfo(name: "nami", bounty: 160000000),
+        BountyInfo(name: "robin", bounty: 8000000),
+        BountyInfo(name: "sanji", bounty: 77000000),
+        BountyInfo(name: "zoro", bounty: 12000000),
+    ]
+    
+    var numOfBountyInfoList: Int {
+        return bountyInfoList.count
+    }
+    
+    func bountyInfo(at index: Int) -> BountyInfo {
+        return bountyInfoList[index]
+    }
 }
